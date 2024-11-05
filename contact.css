@@ -1,0 +1,74 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background for contrast */
+    color: #333; /* Dark text for readability */
+}
+
+/* Header Styles */
+header {
+    background: #007BFF; /* Bootstrap blue */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Contact Form Styles */
+form {
+    background: white; /* White background for the form */
+    max-width: 600px; /* Maximum width for the form */
+    margin: 20px auto; /* Center the form */
+    padding: 20px; /* Inner padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+label {
+    font-weight: bold; /* Bold labels */
+    margin-top: 10px; /* Margin for spacing */
+}
+
+textarea {
+    width: 100%; /* Full width textarea */
+    height: 150px; /* Height for the textarea */
+    padding: 10px; /* Padding inside textarea */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    resize: vertical; /* Allow vertical resize */
+}
+
+/* Submit Button Styles */
+input[type="submit"] {
+    background-color: #28a745; /* Bootstrap green */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background 0.3s; /* Transition for background change */
+}
+
+input[type="submit"]:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Message Styles */
+p {
+    margin: 10px 0; /* Margin for paragraphs */
+}
+
+/* Link Styles */
+a {
+    color: #007BFF; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
