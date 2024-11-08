@@ -1,0 +1,551 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Oct 28, 2024 at 12:27 PM
+-- Server version: 8.2.0
+-- PHP Version: 8.2.13
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `e_market`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE IF NOT EXISTS `cart` (
+  `cart_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`cart_id`),
+  KEY `fk_cart_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cartitems`
+--
+
+DROP TABLE IF EXISTS `cartitems`;
+CREATE TABLE IF NOT EXISTS `cartitems` (
+  `cart_item_id` int NOT NULL AUTO_INCREMENT,
+  `cart_id` int NOT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity` int NOT NULL,
+  PRIMARY KEY (`cart_item_id`),
+  KEY `fk_cartitem_cart` (`cart_id`),
+  KEY `fk_cartitem_product` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(50) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `category_name`, `description`) VALUES
+(1, 'Electronics', 'Devices and gadgets including phones, tablets, and laptops.'),
+(2, 'Clothing', 'Apparel for men, women, and children.'),
+(3, 'Home & Kitchen', 'Furniture, appliances, and decor for home improvement.'),
+(4, 'Books', 'Printed and digital literature in various genres.'),
+(5, 'Beauty & Health', 'Cosmetics, skincare products, and health supplements.'),
+(6, 'Sports & Outdoors', 'Equipment and apparel for sports and outdoor activities.'),
+(7, 'Toys & Games', 'Fun and educational toys for children of all ages.'),
+(8, 'Automotive', 'Parts and accessories for cars, trucks, and motorcycles.'),
+(9, 'Jewelry', 'Fashion and fine jewelry for every occasion.'),
+(10, 'Grocery', 'Food and beverage products, including organic options.'),
+(11, 'Office Supplies', 'Stationery and office equipment for work and study.'),
+(12, 'Pet Supplies', 'Products and accessories for pets.'),
+(13, 'Musical Instruments', 'Instruments, equipment, and accessories for musicians.'),
+(14, 'Health & Personal Care', 'Personal hygiene and health-related products.'),
+(15, 'Baby Products', 'Items and accessories for infants and toddlers.'),
+(16, 'Travel', 'Luggage, travel accessories, and gear for travelers.'),
+(17, 'Electronics', 'Devices and gadgets including phones, tablets, and laptops.'),
+(18, 'Clothing', 'Apparel for men, women, and children.'),
+(19, 'Home & Kitchen', 'Furniture, appliances, and decor for home improvement.'),
+(20, 'Books', 'Printed and digital literature in various genres.'),
+(21, 'Beauty & Health', 'Cosmetics, skincare products, and health supplements.'),
+(22, 'Sports & Outdoors', 'Equipment and apparel for sports and outdoor activities.'),
+(23, 'Toys & Games', 'Fun and educational toys for children of all ages.'),
+(24, 'Automotive', 'Parts and accessories for cars, trucks, and motorcycles.'),
+(25, 'Jewelry', 'Fashion and fine jewelry for every occasion.'),
+(26, 'Grocery', 'Food and beverage products, including organic options.'),
+(27, 'Office Supplies', 'Stationery and office equipment for work and study.'),
+(28, 'Pet Supplies', 'Products and accessories for pets.'),
+(29, 'Musical Instruments', 'Instruments, equipment, and accessories for musicians.'),
+(30, 'Health & Personal Care', 'Personal hygiene and health-related products.'),
+(31, 'Baby Products', 'Items and accessories for infants and toddlers.'),
+(32, 'Travel', 'Luggage, travel accessories, and gear for travelers.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discounts`
+--
+
+DROP TABLE IF EXISTS `discounts`;
+CREATE TABLE IF NOT EXISTS `discounts` (
+  `discount_id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `description` text,
+  `discount_percentage` decimal(5,2) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  PRIMARY KEY (`discount_id`),
+  UNIQUE KEY `code` (`code`)
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE IF NOT EXISTS `messages` (
+  `message_id` int NOT NULL AUTO_INCREMENT,
+  `sender_id` int NOT NULL,
+  `content` text NOT NULL,
+  `sent_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`message_id`),
+  KEY `fk_message_sender` (`sender_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderitems`
+--
+
+DROP TABLE IF EXISTS `orderitems`;
+CREATE TABLE IF NOT EXISTS `orderitems` (
+  `item_id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity` int NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`item_id`),
+  KEY `fk_orderitem_order` (`order_id`),
+  KEY `fk_orderitem_product` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `order_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('pending','completed','canceled') DEFAULT 'pending',
+  `total_amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`order_id`),
+  KEY `fk_order_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `payment_id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL,
+  `payment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_method` enum('credit_card','paypal','bank_transfer') NOT NULL,
+  `status` enum('pending','completed','failed') DEFAULT 'pending',
+  PRIMARY KEY (`payment_id`),
+  KEY `fk_payment_order` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productdiscounts`
+--
+
+DROP TABLE IF EXISTS `productdiscounts`;
+CREATE TABLE IF NOT EXISTS `productdiscounts` (
+  `product_discount_id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `discount_id` int NOT NULL,
+  `applied_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_discount_id`),
+  KEY `fk_productdiscount_product` (`product_id`),
+  KEY `fk_productdiscount_discount` (`discount_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `description` text,
+  `category_id` int DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `stock` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_id`),
+  KEY `fk_product_category` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `name`, `description`, `category_id`, `price`, `image`, `stock`, `created_at`) VALUES
+(1, 'Smartphone X', 'Latest smartphone with advanced features and sleek design.', 1, 699.99, 'images/smartphone_x.jpg', 50, '2024-10-25 07:19:56'),
+(2, 'Wireless Headphones', 'Noise-cancelling over-ear headphones for an immersive experience.', 1, 199.99, 'images/wireless_headphones.jpg', 75, '2024-10-25 07:19:56'),
+(3, 'Bluetooth Speaker', 'Portable Bluetooth speaker with excellent sound quality.', 1, 99.99, 'images/bluetooth_speaker.jpg', 60, '2024-10-25 07:19:56'),
+(4, '4K Television', 'Ultra HD television with smart features.', 1, 1299.99, 'images/4k_tv.jpg', 20, '2024-10-25 07:19:56'),
+(5, 'Gaming Laptop', 'High-performance laptop designed for gaming.', 1, 1499.99, 'images/gaming_laptop.jpg', 15, '2024-10-25 07:19:56'),
+(6, 'T-Shirt', 'Comfortable cotton t-shirt available in multiple colors.', 2, 19.99, 'images/tshirt.jpg', 200, '2024-10-25 07:19:56'),
+(7, 'Jeans', 'Stylish denim jeans for casual wear.', 2, 49.99, 'images/jeans.jpg', 150, '2024-10-25 07:19:56'),
+(8, 'Jacket', 'Warm and stylish winter jacket.', 2, 89.99, 'images/jacket.jpg', 100, '2024-10-25 07:19:56'),
+(9, 'Sneakers', 'Trendy sneakers for everyday wear.', 2, 69.99, 'images/sneakers.jpg', 120, '2024-10-25 07:19:56'),
+(10, 'Dress', 'Elegant dress suitable for special occasions.', 2, 89.99, 'images/dress.jpg', 80, '2024-10-25 07:19:56'),
+(11, 'Dining Table', 'Wooden dining table suitable for up to 6 people.', 3, 499.99, 'images/dining_table.jpg', 10, '2024-10-25 07:19:56'),
+(12, 'Blender', 'High-speed blender for smoothies and soups.', 3, 89.99, 'images/blender.jpg', 60, '2024-10-25 07:19:56'),
+(13, 'Microwave Oven', 'Compact microwave oven for quick meals.', 3, 129.99, 'images/microwave.jpg', 40, '2024-10-25 07:19:56'),
+(14, 'Coffee Maker', 'Coffee maker with programmable settings.', 3, 99.99, 'images/coffee_maker.jpg', 25, '2024-10-25 07:19:56'),
+(15, 'Air Fryer', 'Healthy air fryer for quick meals.', 3, 129.99, 'images/air_fryer.jpg', 15, '2024-10-25 07:19:56'),
+(16, 'Fiction Novel', 'Bestselling fiction novel with a gripping plot.', 4, 14.99, 'images/fiction_novel.jpg', 100, '2024-10-25 07:19:56'),
+(17, 'Cookbook', 'A collection of delicious recipes from around the world.', 4, 24.99, 'images/cookbook.jpg', 80, '2024-10-25 07:19:56'),
+(18, 'Biography', 'Inspirational biography of a famous personality.', 4, 19.99, 'images/biography.jpg', 90, '2024-10-25 07:19:56'),
+(19, 'Children\'s Book', 'Colorful and engaging book for kids.', 4, 9.99, 'images/childrens_book.jpg', 150, '2024-10-25 07:19:56'),
+(20, 'Magazine Subscription', 'Monthly magazine subscription on various topics.', 4, 99.99, 'images/magazine.jpg', 200, '2024-10-25 07:19:56'),
+(21, 'Moisturizer', 'Hydrating moisturizer suitable for all skin types.', 5, 29.99, 'images/moisturizer.jpg', 120, '2024-10-25 07:19:56'),
+(22, 'Vitamin Supplements', 'Daily vitamin supplements for overall health.', 5, 19.99, 'images/vitamins.jpg', 200, '2024-10-25 07:19:56'),
+(23, 'Perfume', 'Luxury perfume with a long-lasting fragrance.', 5, 59.99, 'images/perfume.jpg', 75, '2024-10-25 07:19:56'),
+(24, 'Face Wash', 'Gentle face wash for daily use.', 5, 14.99, 'images/face_wash.jpg', 100, '2024-10-25 07:19:56'),
+(25, 'Sunscreen', 'SPF 50 sunscreen for sun protection.', 5, 19.99, 'images/sunscreen.jpg', 80, '2024-10-25 07:19:56'),
+(26, 'Yoga Mat', 'Durable and non-slip yoga mat for workouts.', 6, 29.99, 'images/yoga_mat.jpg', 100, '2024-10-25 07:19:56'),
+(27, 'Tent', 'Portable tent for camping trips.', 6, 129.99, 'images/tent.jpg', 30, '2024-10-25 07:19:56'),
+(28, 'Bicycle', 'Mountain bicycle suitable for off-road adventures.', 6, 299.99, 'images/bicycle.jpg', 15, '2024-10-25 07:19:56'),
+(29, 'Camping Chair', 'Foldable camping chair for outdoor activities.', 6, 49.99, 'images/camping_chair.jpg', 40, '2024-10-25 07:19:56'),
+(30, 'Fishing Rod', 'High-quality fishing rod for enthusiasts.', 6, 89.99, 'images/fishing_rod.jpg', 20, '2024-10-25 07:19:56'),
+(31, 'Action Figure', 'Collectible action figure from a popular movie franchise.', 7, 19.99, 'images/action_figure.jpg', 150, '2024-10-25 07:19:56'),
+(32, 'Board Game', 'Fun board game for family and friends.', 7, 39.99, 'images/board_game.jpg', 80, '2024-10-25 07:19:56'),
+(33, 'Puzzle', 'Challenging puzzle for all ages.', 7, 24.99, 'images/puzzle.jpg', 90, '2024-10-25 07:19:56'),
+(34, 'Playing Cards', 'Deck of playing cards for various games.', 7, 9.99, 'images/playing_cards.jpg', 120, '2024-10-25 07:19:56'),
+(35, 'Educational Toy', 'Fun and educational toy for children.', 7, 24.99, 'images/educational_toy.jpg', 100, '2024-10-25 07:19:56'),
+(36, 'Car Battery', 'Reliable battery for various car models.', 8, 99.99, 'images/car_battery.jpg', 25, '2024-10-25 07:19:56'),
+(37, 'Motorcycle Helmet', 'Safety helmet for motorcycle riders.', 8, 79.99, 'images/motorcycle_helmet.jpg', 40, '2024-10-25 07:19:56'),
+(38, 'Tire Inflator', 'Portable tire inflator for quick inflation.', 8, 29.99, 'images/tire_inflator.jpg', 60, '2024-10-25 07:19:56'),
+(39, 'Dashboard Camera', 'High-definition dashboard camera for safety.', 8, 99.99, 'images/dashboard_camera.jpg', 50, '2024-10-25 07:19:56'),
+(40, 'GPS Navigator', 'Portable GPS navigator for road trips.', 8, 119.99, 'images/gps_navigator.jpg', 30, '2024-10-25 07:19:56'),
+(41, 'Gold Necklace', 'Elegant gold necklace for special occasions.', 9, 299.99, 'images/gold_necklace.jpg', 10, '2024-10-25 07:19:56'),
+(42, 'Diamond Ring', 'Stunning diamond ring with a classic design.', 9, 999.99, 'images/diamond_ring.jpg', 5, '2024-10-25 07:19:56'),
+(43, 'Bracelet', 'Stylish bracelet suitable for everyday wear.', 9, 49.99, 'images/bracelet.jpg', 50, '2024-10-25 07:19:56'),
+(44, 'Earrings', 'Beautiful earrings for special occasions.', 9, 69.99, 'images/earrings.jpg', 40, '2024-10-25 07:19:56'),
+(45, 'Watches', 'Luxury watch with advanced features.', 9, 399.99, 'images/watches.jpg', 15, '2024-10-25 07:19:56'),
+(46, 'Organic Apples', 'Fresh organic apples sourced from local farms.', 10, 1.99, 'images/organic_apples.jpg', 500, '2024-10-25 07:19:56'),
+(47, 'Almond Milk', 'Creamy almond milk for a dairy-free option.', 10, 3.49, 'images/almond_milk.jpg', 300, '2024-10-25 07:19:56'),
+(48, 'Pasta', 'Organic whole wheat pasta for healthy meals.', 10, 2.99, 'images/pasta.jpg', 400, '2024-10-25 07:19:56'),
+(49, 'Olive Oil', 'Extra virgin olive oil for cooking and dressings.', 10, 9.99, 'images/olive_oil.jpg', 250, '2024-10-25 07:19:56'),
+(50, 'Cereal', 'Healthy breakfast cereal with whole grains.', 10, 3.99, 'images/cereal.jpg', 300, '2024-10-25 07:19:56'),
+(51, 'Notebook', 'Spiral-bound notebook for notes and sketches.', 11, 4.99, 'images/notebook.jpg', 200, '2024-10-25 07:19:56'),
+(52, 'Printer', 'All-in-one printer for home and office use.', 11, 149.99, 'images/printer.jpg', 20, '2024-10-25 07:19:56'),
+(53, 'Markers', 'Set of colorful markers for art and crafts.', 11, 12.99, 'images/markers.jpg', 150, '2024-10-25 07:19:56'),
+(54, 'Whiteboard', 'Magnetic whiteboard for presentations and notes.', 11, 49.99, 'images/whiteboard.jpg', 30, '2024-10-25 07:19:56'),
+(55, 'Desk Organizer', 'Wooden desk organizer for stationery.', 11, 29.99, 'images/desk_organizer.jpg', 40, '2024-10-25 07:19:56'),
+(56, 'Dog Food', 'Premium dog food for a balanced diet.', 12, 29.99, 'images/dog_food.jpg', 100, '2024-10-25 07:19:56'),
+(57, 'Cat Litter', 'Odor-control cat litter for a clean home.', 12, 12.99, 'images/cat_litter.jpg', 150, '2024-10-25 07:19:56'),
+(58, 'Pet Bed', 'Comfortable pet bed for small and large pets.', 12, 39.99, 'images/pet_bed.jpg', 50, '2024-10-25 07:19:56'),
+(59, 'Bird Cage', 'Spacious cage for birds with multiple perches.', 12, 89.99, 'images/bird_cage.jpg', 30, '2024-10-25 07:19:56'),
+(60, 'Fish Tank', 'Aquarium with filtration system and accessories.', 12, 129.99, 'images/fish_tank.jpg', 20, '2024-10-25 07:19:56'),
+(61, 'Gym Bag', 'Durable gym bag with multiple compartments.', 13, 49.99, 'images/gym_bag.jpg', 50, '2024-10-25 07:19:56'),
+(62, 'Dumbbells', 'Set of adjustable dumbbells for home workouts.', 13, 129.99, 'images/dumbbells.jpg', 30, '2024-10-25 07:19:56'),
+(63, 'Yoga Blocks', 'Set of two yoga blocks for stability.', 13, 19.99, 'images/yoga_blocks.jpg', 100, '2024-10-25 07:19:56'),
+(64, 'Resistance Bands', 'Versatile resistance bands for strength training.', 13, 24.99, 'images/resistance_bands.jpg', 75, '2024-10-25 07:19:56'),
+(65, 'Jump Rope', 'Lightweight jump rope for cardio workouts.', 13, 9.99, 'images/jump_rope.jpg', 120, '2024-10-25 07:19:56'),
+(66, 'Laptop Stand', 'Adjustable laptop stand for better ergonomics.', 14, 39.99, 'images/laptop_stand.jpg', 50, '2024-10-25 07:19:56'),
+(67, 'Cable Organizer', 'Neat cable organizer for desktop setups.', 14, 19.99, 'images/cable_organizer.jpg', 100, '2024-10-25 07:19:56'),
+(68, 'Webcam', 'HD webcam for video calls and streaming.', 14, 69.99, 'images/webcam.jpg', 30, '2024-10-25 07:19:56'),
+(69, 'Microphone', 'High-quality microphone for recording and streaming.', 14, 99.99, 'images/microphone.jpg', 25, '2024-10-25 07:19:56'),
+(70, 'Laptop Bag', 'Stylish laptop bag with extra padding.', 14, 59.99, 'images/laptop_bag.jpg', 40, '2024-10-25 07:19:56'),
+(71, 'Tablet', 'Latest tablet with high-resolution display.', 15, 499.99, 'images/tablet.jpg', 25, '2024-10-25 07:19:56'),
+(72, 'Smartwatch', 'Feature-packed smartwatch with health tracking.', 15, 199.99, 'images/smartwatch.jpg', 40, '2024-10-25 07:19:56'),
+(73, 'E-Reader', 'Lightweight e-reader with a vast library.', 15, 129.99, 'images/e_reader.jpg', 30, '2024-10-25 07:19:56'),
+(74, 'Bluetooth Tracker', 'Tracker for keeping tabs on your belongings.', 15, 29.99, 'images/bluetooth_tracker.jpg', 100, '2024-10-25 07:19:56'),
+(75, 'Wireless Charger', 'Fast wireless charger for compatible devices.', 15, 39.99, 'images/wireless_charger.jpg', 60, '2024-10-25 07:19:56'),
+(76, 'First Aid Kit', 'Comprehensive first aid kit for emergencies.', 16, 49.99, 'images/first_aid_kit.jpg', 50, '2024-10-25 07:19:56'),
+(77, 'Fire Extinguisher', 'ABC fire extinguisher for home safety.', 16, 79.99, 'images/fire_extinguisher.jpg', 40, '2024-10-25 07:19:56'),
+(78, 'Smoke Detector', 'Smoke detector with battery backup.', 16, 29.99, 'images/smoke_detector.jpg', 100, '2024-10-25 07:19:56'),
+(79, 'Surge Protector', 'Surge protector with multiple outlets.', 16, 19.99, 'images/surge_protector.jpg', 80, '2024-10-25 07:19:56'),
+(80, 'Flashlight', 'Rechargeable flashlight for emergencies.', 16, 29.99, 'images/flashlight.jpg', 60, '2024-10-25 07:19:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+DROP TABLE IF EXISTS `reviews`;
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `rating` tinyint DEFAULT NULL,
+  `comment` text,
+  `review_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`review_id`),
+  KEY `fk_review_product` (`product_id`),
+  KEY `fk_review_user` (`user_id`)
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shipping`
+--
+
+DROP TABLE IF EXISTS `shipping`;
+CREATE TABLE IF NOT EXISTS `shipping` (
+  `shipping_id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL,
+  `shipping_address` varchar(255) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `postal_code` varchar(20) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `shipping_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`shipping_id`),
+  KEY `fk_shipping_order` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userprofile`
+--
+
+DROP TABLE IF EXISTS `userprofile`;
+CREATE TABLE IF NOT EXISTS `userprofile` (
+  `profile_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  PRIMARY KEY (`profile_id`),
+  KEY `fk_userprofile_user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `userprofile`
+--
+
+INSERT INTO `userprofile` (`profile_id`, `user_id`, `first_name`, `last_name`, `address`, `phone`, `date_of_birth`) VALUES
+(1, 1, 'John', 'Doe', '123 Main St, Springfield, IL', '555-1234', '1990-05-15'),
+(2, 2, 'Jane', 'Smith', '456 Elm St, Springfield, IL', '555-5678', '1988-03-22'),
+(3, 3, 'Mike', 'Jones', '789 Oak St, Springfield, IL', '555-8765', '1992-07-10'),
+(4, 4, 'Susan', 'Lee', '321 Pine St, Springfield, IL', '555-4321', '1995-11-30'),
+(5, 5, 'David', 'Kim', '654 Maple St, Springfield, IL', '555-3456', '1989-02-14'),
+(6, 6, 'Lisa', 'Wang', '987 Birch St, Springfield, IL', '555-6543', '1993-06-25'),
+(7, 7, 'Jason', 'Brown', '135 Cedar St, Springfield, IL', '555-7890', '1991-01-08'),
+(8, 8, 'Rachel', 'Adams', '246 Spruce St, Springfield, IL', '555-0987', '1987-09-19'),
+(9, 9, 'Eric', 'Clark', '357 Willow St, Springfield, IL', '555-2345', '1994-04-02'),
+(10, 10, 'Natalie', 'Moore', '468 Cherry St, Springfield, IL', '555-8764', '1990-12-11'),
+(11, 11, 'Paul', 'Garcia', '579 Fir St, Springfield, IL', '555-3451', '1986-10-29'),
+(12, 12, 'Emma', 'Taylor', '680 Ash St, Springfield, IL', '555-5432', '1992-08-15'),
+(13, 13, 'Joshua', 'Lee', '791 Walnut St, Springfield, IL', '555-7654', '1995-05-21'),
+(14, 14, 'Olivia', 'Hall', '802 Chestnut St, Springfield, IL', '555-1230', '1993-02-05'),
+(15, 15, 'Ethan', 'Turner', '913 Hickory St, Springfield, IL', '555-9087', '1994-09-12'),
+(16, 16, 'Chloe', 'Green', '024 Poplar St, Springfield, IL', '555-6549', '1991-03-30'),
+(17, 17, 'Daniel', 'Scott', '135 Ash St, Springfield, IL', '555-0986', '1988-07-16'),
+(18, 18, 'Hannah', 'Harris', '246 Oak St, Springfield, IL', '555-2341', '1990-11-02'),
+(19, 19, 'Matthew', 'Wilson', '357 Maple St, Springfield, IL', '555-5431', '1985-12-22'),
+(20, 20, 'Sophia', 'Young', '468 Cedar St, Springfield, IL', '555-6780', '1992-04-28'),
+(21, 21, 'Ryan', 'Hill', '579 Pine St, Springfield, IL', '555-9876', '1991-08-19'),
+(22, 22, 'Isabella', 'Martin', '680 Birch St, Springfield, IL', '555-3210', '1994-10-03'),
+(23, 23, 'Noah', 'Mitchell', '791 Spruce St, Springfield, IL', '555-7658', '1987-06-14'),
+(24, 24, 'Mia', 'Jackson', '802 Cherry St, Springfield, IL', '555-2349', '1993-09-17'),
+(25, 25, 'Benjamin', 'Thomas', '913 Fir St, Springfield, IL', '555-8761', '1989-02-27'),
+(26, 26, 'Ella', 'White', '024 Willow St, Springfield, IL', '555-3215', '1990-05-29'),
+(27, 27, 'Jacob', 'King', '135 Chestnut St, Springfield, IL', '555-4568', '1992-11-21'),
+(28, 28, 'Charlotte', 'Allen', '246 Oak St, Springfield, IL', '555-6547', '1994-01-10'),
+(29, 29, 'Liam', 'Cooper', '357 Maple St, Springfield, IL', '555-7892', '1986-03-25'),
+(30, 30, 'Grace', 'Morgan', '468 Cedar St, Springfield, IL', '555-8760', '1989-08-31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(25) NOT NULL,
+  `lastname` varchar(25) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `DOB` date DEFAULT NULL,
+  `user_type` enum('customer','seller') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `username`, `email`, `password`, `DOB`, `user_type`, `created_at`) VALUES
+(1, 'John', 'Doe', 'micheal', 'john.doe@gmail.com', '123', NULL, 'customer', '2024-10-25 06:44:16'),
+(2, 'Jane', 'Smith', 'jane_smith', 'jane.smith@gmail.com', 'Password124!', NULL, 'seller', '2024-10-25 06:44:16'),
+(3, 'Mike', 'Jones', 'mike_jones', 'mike.jones@gmail.com', 'Password125!', NULL, 'customer', '2024-10-25 06:44:16'),
+(4, 'Susan', 'Lee', 'susan_lee', 'susan.lee@gmail.com', 'Password126!', NULL, 'seller', '2024-10-25 06:44:16'),
+(5, 'David', 'Kim', 'david_kim', 'david.kim@gmail.com', 'Password127!', NULL, 'customer', '2024-10-25 06:44:16'),
+(6, 'Lisa', 'Wang', 'lisa_wang', 'lisa.wang@gmail.com', 'Password128!', NULL, 'seller', '2024-10-25 06:44:16'),
+(7, 'Jason', 'Brown', 'jason_brown', 'jason.brown@gmail.com', 'Password129!', NULL, 'customer', '2024-10-25 06:44:16'),
+(8, 'Rachel', 'Adams', 'rachel_adams', 'rachel.adams@gmail.com', 'Password130!', NULL, 'seller', '2024-10-25 06:44:16'),
+(9, 'Eric', 'Clark', 'eric_clark', 'eric.clark@gmail.com', 'Password131!', NULL, 'customer', '2024-10-25 06:44:16'),
+(10, 'Natalie', 'Moore', 'natalie_moore', 'natalie.moore@gmail.com', 'Password132!', NULL, 'seller', '2024-10-25 06:44:16'),
+(11, 'Paul', 'Garcia', 'paul_garcia', 'paul.garcia@gmail.com', 'Password133!', NULL, 'customer', '2024-10-25 06:44:16'),
+(12, 'Emma', 'Taylor', 'emma_taylor', 'emma.taylor@gmail.com', 'Password134!', NULL, 'seller', '2024-10-25 06:44:16'),
+(13, 'Joshua', 'Lee', 'joshua_lee', 'joshua.lee@gmail.com', 'Password135!', NULL, 'customer', '2024-10-25 06:44:16'),
+(14, 'Olivia', 'Hall', 'olivia_hall', 'olivia.hall@gmail.com', 'Password136!', NULL, 'seller', '2024-10-25 06:44:16'),
+(15, 'Ethan', 'Turner', 'ethan_turner', 'ethan.turner@gmail.com', 'Password137!', NULL, 'customer', '2024-10-25 06:44:16'),
+(16, 'Chloe', 'Green', 'chloe_green', 'chloe.green@gmail.com', 'Password138!', NULL, 'seller', '2024-10-25 06:44:16'),
+(17, 'Daniel', 'Scott', 'daniel_scott', 'daniel.scott@gmail.com', 'Password139!', NULL, 'customer', '2024-10-25 06:44:16'),
+(18, 'Hannah', 'Harris', 'hannah_harris', 'hannah.harris@gmail.com', 'Password140!', NULL, 'seller', '2024-10-25 06:44:16'),
+(19, 'Matthew', 'Wilson', 'matthew_wilson', 'matthew.wilson@gmail.com', 'Password141!', NULL, 'customer', '2024-10-25 06:44:16'),
+(20, 'Sophia', 'Young', 'sophia_young', 'sophia.young@gmail.com', 'Password142!', NULL, 'seller', '2024-10-25 06:44:16'),
+(21, 'Ryan', 'Hill', 'ryan_hill', 'ryan.hill@gmail.com', 'Password143!', NULL, 'customer', '2024-10-25 06:44:16'),
+(22, 'Isabella', 'Martin', 'isabella_martin', 'isabella.martin@gmail.com', 'Password144!', NULL, 'seller', '2024-10-25 06:44:16'),
+(23, 'Noah', 'Mitchell', 'noah_mitchell', 'noah.mitchell@gmail.com', 'Password145!', NULL, 'customer', '2024-10-25 06:44:16'),
+(24, 'Mia', 'Jackson', 'mia_jackson', 'mia.jackson@gmail.com', 'Password146!', NULL, 'seller', '2024-10-25 06:44:16'),
+(25, 'Benjamin', 'Thomas', 'benjamin_thomas', 'benjamin.thomas@gmail.com', 'Password147!', NULL, 'customer', '2024-10-25 06:44:16'),
+(26, 'Ella', 'White', 'ella_white', 'ella.white@gmail.com', 'Password148!', NULL, 'seller', '2024-10-25 06:44:16'),
+(27, 'Jacob', 'King', 'jacob_king', 'jacob.king@gmail.com', 'Password149!', NULL, 'customer', '2024-10-25 06:44:16'),
+(28, 'Charlotte', 'Allen', 'charlotte_allen', 'charlotte.allen@gmail.com', 'Password150!', NULL, 'seller', '2024-10-25 06:44:16'),
+(29, 'Liam', 'Cooper', 'liam_cooper', 'liam.cooper@gmail.com', 'Password151!', NULL, 'customer', '2024-10-25 06:44:16'),
+(30, 'Grace', 'Morgan', 'grace_morgan', 'grace.morgan@gmail.com', 'Password152!', NULL, 'seller', '2024-10-25 06:44:16'),
+(31, 'Amanya', 'Micheal', 'scoff', 'amanyamicheal770@gmail.com', '$2y$10$Sgjj/8z66Fc4uTyfInYcgun6mB0RTlcCfO/4acZYszQBwhI/EUH0.', NULL, 'customer', '2024-10-25 07:42:06'),
+(32, 'Amanya', 'Jordan', 'Jodie', 'jod@gmail.com', '$2y$10$1b.yvRMqMACW4TV..GtvguCJKkeyMNj7s.fn1/pWrg0ygDzqqHyJO', NULL, 'customer', '2024-10-25 13:13:45'),
+(33, 'Amanya', 'Ian', 'Ian', 'ian@gmail.com', '$2y$10$GCXxvBKE2u1D0Onvw/lYu.XF8TrPk2ccJhrAuwSvFxW8gXy7gzbEu', NULL, 'customer', '2024-10-25 13:14:45'),
+(35, 'amanya', 'micheal', 'me', 'amanya@gmail.com', '123', NULL, NULL, '2024-10-26 15:45:14');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `cartitems`
+--
+ALTER TABLE `cartitems`
+  ADD CONSTRAINT `fk_cartitem_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_cartitem_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `fk_message_sender` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `orderitems`
+--
+ALTER TABLE `orderitems`
+  ADD CONSTRAINT `fk_orderitem_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_orderitem_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_order_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_payment_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `productdiscounts`
+--
+ALTER TABLE `productdiscounts`
+  ADD CONSTRAINT `fk_productdiscount_discount` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`discount_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_productdiscount_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `fk_review_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_review_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `shipping`
+--
+ALTER TABLE `shipping`
+  ADD CONSTRAINT `fk_shipping_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `userprofile`
+--
+ALTER TABLE `userprofile`
+  ADD CONSTRAINT `fk_userprofile_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
